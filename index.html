@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Firebase Data</title>
+</head>
+<body>
+  <table id="data-table">
+    <thead>
+      <tr>
+        <th>Meter</th>
+        <th>Parameter</th>
+        <th>Values</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.6/firebase-database.js"></script>
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
+    import { getDatabase, ref, onValue } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js';
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCbhQ7q4xiwDlc4QN81-Xp8RvHKKHpDu20",
+        authDomain: "fir-start-df66f.firebaseapp.com",
+        databaseURL: "https://fir-start-df66f-default-rtdb.firebaseio.com",
+        projectId: "fir-start-df66f",
+        storageBucket: "fir-start-df66f.appspot.com",
+        messagingSenderId: "367950942282",
+        appId: "1:367950942282:web:f8b41912d6ad6d006896b3",
+        measurementId: "G-SN652T91ER"
+    };
+
+    const firebaseApp = initializeApp(firebaseConfig);
+    const database = getDatabase(firebaseApp);
+
+    const dataTable = document.getElementById('data-table');
+    const dataMap = new Map();
+    
+    function fetchData() {
+        const meters = ['meter1', 'meter2', 'meter3', 'meter4', 'meter5', 'meter6', 'meter7', 'meter8'];
+
+        meters.forEach((meter) => {
+            const dataRef = ref(database, `/${meter}_data`);
+
+            onValue(dataRef, (snapshot) => {
+                const data = snapshot.val();
+                dataMap.set(meter, data);
+                populateTable();
+                const meter1Data=dataMap.get('meter1')
+   const  meter2Data=dataMap.get('meter2')
+   const  meter3Data=dataMap.get('meter3')
+   const meter4Data=dataMap.get('meter4')
+   const  meter5Data=dataMap.get('meter5')
+   const meter6Data=dataMap.get('meter6')
+   const meter7Data=dataMap.get('meter7')
+   const meter8Data=dataMap.get('meter8')
+   console.log(meter1Data)
+    console.log(meter2Data)
+    console.log(meter3Data)
+    console.log(meter4Data)
+    console.log(meter5Data)
+    console.log(meter6Data)
+    console.log(meter7Data)
+    console.log(meter8Data)
+            });
+        });
+    
+       
+    }
+
+    function populateTable() {
+        const tbody = dataTable.querySelector('tbody');
+        tbody.innerHTML = ''; // Clear existing rows
+
+        const parameters = Array.from(dataMap.values())
+            .map(data => Object.keys(data))
+            .flat()
+            .filter((value, index, self) => self.indexOf(value) === index);
+
+        for (const parameter of parameters) {
+            const row = document.createElement('tr');
+            const parameterCell = document.createElement('td');
+            parameterCell.textContent = parameter;
+            row.appendChild(parameterCell);
+
+            for (const [meter, data] of dataMap) {
+                const valuesCell = document.createElement('td');
+                valuesCell.textContent = Array.isArray(data[parameter]) ? data[parameter].join(', ') : data[parameter];
+                row.appendChild(valuesCell);
+            }
+
+            tbody.appendChild(row);
+        }
+    }
+
+    fetchData();
+   
+</script>
+ 
+</body>
+</html>

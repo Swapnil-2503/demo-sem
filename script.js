@@ -32,40 +32,8 @@ function writeToFirebase(path, data) {
     return set(dataRef, data);
 }
 
-// Function to handle button click and write data to Firebase
-// function handleButtonClick(buttonText) {
-//     const path = '/writeCommand'; // Change this path accordingly
-//     const data = buttonText;
 
-//     // Use a Promise to ensure that data is written before proceeding
-//     return new Promise((resolve, reject) => {
-//         writeToFirebase(path, data)
-//             .then(() => {
-//                 // Resolve the promise after successful write
-//                 resolve();
-//             })
-//             .catch((error) => {
-//                 // Reject the promise if there is an error
-//                 reject(error);
-//             });
-//     });
-// }
 
-// // Attach click event listeners to the buttons
-// const buttons = document.querySelectorAll('.writing button');
-// buttons.forEach((button) => {
-//     button.addEventListener('click', async () => {
-//         const buttonText = button.textContent;
-
-//         try {
-//             await handleButtonClick(buttonText);
-//             // After successful write, fetch and display data
-//             fetchData();
-//         } catch (error) {
-//             console.error('Error writing to Firebase:', error);
-//         }
-//     });
-// });
 // Fetch and display data
 const dataTable = document.getElementById('data-table');
 const dataMap = new Map();

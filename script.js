@@ -17,7 +17,8 @@ const firebaseApp = initializeApp(firebaseConfig);
 const database = getDatabase(firebaseApp);
 
 export function handleButtonClick(buttonText) {
-    const path = '/writeCommand'; // Change this path accordingly
+    const username = document.getElementById('username').value; // Get username from input field
+    const path = `/${username}/writeCommand`; // Change this path accordingly
     const data = buttonText;
     writeToFirebase(path, data);
 
@@ -32,17 +33,15 @@ function writeToFirebase(path, data) {
     return set(dataRef, data);
 }
 
-
-
 // Fetch and display data
 const dataTable = document.getElementById('data-table');
 const dataMap = new Map();
 
-function fetchData() {
+function fetchData(username) {
     const meters = ['meter1', 'meter2', 'meter3', 'meter4'];
 
     meters.forEach((meter) => {
-        const dataRef = ref(database, `/${meter}_data`);
+        const dataRef = ref(database, `/${username}/${meter}_data`);
 
         onValue(dataRef, (snapshot) => {
             const data = snapshot.val();
@@ -78,18 +77,17 @@ function populateTable() {
 }
 
 // Initial data fetch
-fetchData();
+const usernameInput = document.getElementById('username');
+const loginContainer = document.getElementById('login-container');
+const appContainer = document.getElementById('app-container');
 
-// Function to authenticate
 export function authenticate() {
     const passwordInput = document.getElementById('password');
-    const loginContainer = document.getElementById('login-container');
-    const appContainer = document.getElementById('app-container');
-
     const enteredPassword = passwordInput.value;
+    const enteredUsername = usernameInput.value;
 
     // Fetch the correct password from Firebase
-    const passwordRef = ref(database, '/sem_password');
+    const passwordRef = ref(database, `/${enteredUsername}/sem_password`);
     onValue(passwordRef, (snapshot) => {
         const correctPassword = snapshot.val();
 
@@ -97,7 +95,7 @@ export function authenticate() {
             // Correct password, show the app
             loginContainer.style.display = 'none';
             appContainer.style.display = 'block';
-            fetchData(); // Fetch data when authenticated
+            fetchData(enteredUsername); // Fetch data when authenticated
         } else {
             // Incorrect password, show an error
             alert('Incorrect password. Please try again.');

@@ -1,19 +1,66 @@
+
+
+#login-container {
+  max-width: 400px;
+  margin: 50px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+/* Add the following CSS to your style.css file */
+
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #f5f5f5;
   margin: 0;
   padding: 0;
 }
 
 header {
-  background-color: #333;
-  color: white;
-  padding: 1rem;
+  background-color: #4CAF50;
+  padding: 20px;
   text-align: center;
+  color: white;
 }
 
 section {
-  margin: 20px;
+  padding: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.read-button, .toggle-buton {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.read-meter, .meter {
+  flex: 1;
+  margin-right: 10px;
 }
 
 #data-table {
@@ -22,29 +69,38 @@ section {
   margin-top: 20px;
 }
 
-#data-table th, #data-table td {
+#table-headers th, #data-table td {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 10px;
   text-align: left;
 }
 
+#table-headers th {
+  position: sticky;
+  top: 0;
+  background-color: #f2f2f2;
+  color: black;
+}
+
 #data-table th {
-  background-color: #4CAF50;
-  color: white;
+  position: sticky;
+  top: 0;
+  background-color: #f2f2f2;
+  color: black;
 }
 
-button {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  margin-right: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+/* Responsive Design */
+@media only screen and (max-width: 768px) {
+  input {
+      width: 100%;
+  }
+
+  .read-meter, .meter {
+      margin-right: 0;
+      margin-bottom: 10px;
+  }
+
+  #table-headers th, #data-table td {
+      padding: 8px;
+  }
 }
-
-button:hover {
-  background-color: #45a049;
-}
-
-

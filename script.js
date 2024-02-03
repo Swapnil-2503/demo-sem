@@ -51,30 +51,58 @@ function fetchData(username) {
     });
 }
 
+// ... (Previous code)
+
+// Update the populateTable() function in script.js
+
 function populateTable() {
     const tbody = dataTable.querySelector('tbody');
+    const headersRow = document.getElementById('table-headers');
+
     tbody.innerHTML = ''; // Clear existing rows
+    headersRow.innerHTML = ''; // Reset headers
+
+    const meters = ['Meter 1', 'Meter 2', 'Meter 3', 'Meter 4'];
 
     const parameters = Array.from(dataMap.values())
         .map(data => Object.keys(data))
         .flat()
         .filter((value, index, self) => self.indexOf(value) === index);
 
-    for (const parameter of parameters) {
-        const row = document.createElement('tr');
-        const parameterCell = document.createElement('td');
-        parameterCell.textContent = parameter;
-        row.appendChild(parameterCell);
+    const paras = ["volts 01", "volts 02", "volts 03", "current 01", "current 02", "current 03", "watt 01", "watt 02",
+        "watt 03", "VAR 01", "VAR 02", "VAR 03", "freq", "wh Import", "wh Export", "VL 1-2", "VL 2-3", "VL 3-1"];
 
-        for (const [meter, data] of dataMap) {
+    // Add "Device" header as the first column
+    const deviceHeader = document.createElement('th');
+    deviceHeader.textContent = 'Device';
+    headersRow.appendChild(deviceHeader);
+
+    // Add other headers
+    for (const parameter of parameters) {
+        const headerCell = document.createElement('th');
+        headerCell.textContent = paras[parameter];
+        headersRow.appendChild(headerCell);
+    }
+
+    // Add meter rows
+    for (const meter of meters) {
+        const row = document.createElement('tr');
+        const meterCell = document.createElement('td');
+        meterCell.textContent = meter;
+        row.appendChild(meterCell);
+
+        for (const parameter of parameters) {
             const valuesCell = document.createElement('td');
-            valuesCell.textContent = Array.isArray(data[parameter]) ? data[parameter].join(', ') : data[parameter];
+            const meterData = dataMap.get(meter.toLowerCase().replace(' ', ''));
+            valuesCell.textContent = Array.isArray(meterData[parameter]) ? meterData[parameter].join(', ') : meterData[parameter];
             row.appendChild(valuesCell);
         }
 
         tbody.appendChild(row);
     }
 }
+
+// ... (Remaining code)
 
 // Initial data fetch
 const usernameInput = document.getElementById('username');
@@ -101,4 +129,9 @@ export function authenticate() {
             alert('Incorrect password. Please try again.');
         }
     });
+}
+export function handlePasswordKeyPress(event) {
+    if (event.key === 'Enter') {
+        authenticate();
+    }
 }
